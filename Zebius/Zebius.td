@@ -7,51 +7,51 @@ class ZebiusReg<bits<5> num, string n> : Register<n> {
 }
 
 // GPR's
-def R0 : SampleReg< 0, "R0">, DwarfRegNum<[0]>;
-def R1   : SampleReg< 1, "R1">,   DwarfRegNum<[1]>;
-def R2   : SampleReg< 2, "R2">,   DwarfRegNum<[2]>;
-def R3   : SampleReg< 3, "R3">,   DwarfRegNum<[3]>;
-def R4   : SampleReg< 4, "R4">,   DwarfRegNum<[4]>;
-def R5   : SampleReg< 5, "R5">,   DwarfRegNum<[5]>;
-def R6   : SampleReg< 6, "R6">,   DwarfRegNum<[6]>;
-def R7   : SampleReg< 7, "R7">,   DwarfRegNum<[7]>;
-def R8   : SampleReg< 8, "R8">,   DwarfRegNum<[8]>;
-def R9   : SampleReg< 9, "R9">,   DwarfRegNum<[9]>;
-def R10   : SampleReg< 10, "R10">,  DwarfRegNum<[10]>;
-def R11   : SampleReg< 11, "R11">,  DwarfRegNum<[11]>;
-def R12   : SampleReg< 12, "R12">,  DwarfRegNum<[12]>;
-def R13   : SampleReg< 13, "R13">,  DwarfRegNum<[13]>;
-def R14   : SampleReg< 14, "R14">,  DwarfRegNum<[14]>;
-def R15   : SampleReg< 15, "R15">,  DwarfRegNum<[15]>;
+def R0 : ZebiusReg< 0, "R0">, DwarfRegNum<[0]>;
+def R1   : ZebiusReg< 1, "R1">,   DwarfRegNum<[1]>;
+def R2   : ZebiusReg< 2, "R2">,   DwarfRegNum<[2]>;
+def R3   : ZebiusReg< 3, "R3">,   DwarfRegNum<[3]>;
+def R4   : ZebiusReg< 4, "R4">,   DwarfRegNum<[4]>;
+def R5   : ZebiusReg< 5, "R5">,   DwarfRegNum<[5]>;
+def R6   : ZebiusReg< 6, "R6">,   DwarfRegNum<[6]>;
+def R7   : ZebiusReg< 7, "R7">,   DwarfRegNum<[7]>;
+def R8   : ZebiusReg< 8, "R8">,   DwarfRegNum<[8]>;
+def R9   : ZebiusReg< 9, "R9">,   DwarfRegNum<[9]>;
+def R10   : ZebiusReg< 10, "R10">,  DwarfRegNum<[10]>;
+def R11   : ZebiusReg< 11, "R11">,  DwarfRegNum<[11]>;
+def R12   : ZebiusReg< 12, "R12">,  DwarfRegNum<[12]>;
+def R13   : ZebiusReg< 13, "R13">,  DwarfRegNum<[13]>;
+def R14   : ZebiusReg< 14, "R14">,  DwarfRegNum<[14]>;
+def R15   : ZebiusReg< 15, "R15">,  DwarfRegNum<[15]>;
 
 // global base register
-def GBR   : SampleReg< 0, "GBR">,  DwarfRegNum<[16]>;
+def GBR   : ZebiusReg< 0, "GBR">,  DwarfRegNum<[16]>;
 
 // status register
-def SR    : SampleReg< 0, "SR">,  DwarfRegNum<[16]>;
+def SR    : ZebiusReg< 0, "SR">,  DwarfRegNum<[16]>;
 
 // procedure register
-def PR    : SampleReg< 0, "PR">,  DwarfRegNum<[16]>;
+def PR    : ZebiusReg< 0, "PR">,  DwarfRegNum<[16]>;
 
 // program counter
-def PC    : SampleReg< 0, "PC">,  DwarfRegNum<[16]>;
+def PC    : ZebiusReg< 0, "PC">,  DwarfRegNum<[16]>;
 
-def FR0 : SampleReg< 0, "FR0">, DwarfRegNum<[0]>;
-def FR1   : SampleReg< 1, "FR1">,   DwarfRegNum<[1]>;
-def FR2   : SampleReg< 2, "FR2">,   DwarfRegNum<[2]>;
-def FR3   : SampleReg< 3, "FR3">,   DwarfRegNum<[3]>;
-def FR4   : SampleReg< 4, "FR4">,   DwarfRegNum<[4]>;
-def FR5   : SampleReg< 5, "FR5">,   DwarfRegNum<[5]>;
-def FR6   : SampleReg< 6, "FR6">,   DwarfRegNum<[6]>;
-def FR7   : SampleReg< 7, "FR7">,   DwarfRegNum<[7]>;
-def FR8   : SampleReg< 8, "FR8">,   DwarfRegNum<[8]>;
-def FR9   : SampleReg< 9, "FR9">,   DwarfRegNum<[9]>;
-def FR10   : SampleReg< 10, "FR10">,  DwarfRegNum<[10]>;
-def FR11   : SampleReg< 11, "FR11">,  DwarfRegNum<[11]>;
-def FR12   : SampleReg< 12, "FR12">,  DwarfRegNum<[12]>;
-def FR13   : SampleReg< 13, "FR13">,  DwarfRegNum<[13]>;
-def FR14   : SampleReg< 14, "FR14">,  DwarfRegNum<[14]>;
-def FR15   : SampleReg< 15, "FR15">,  DwarfRegNum<[15]>;
+def FR0 : ZebiusReg< 0, "FR0">, DwarfRegNum<[0]>;
+def FR1   : ZebiusReg< 1, "FR1">,   DwarfRegNum<[1]>;
+def FR2   : ZebiusReg< 2, "FR2">,   DwarfRegNum<[2]>;
+def FR3   : ZebiusReg< 3, "FR3">,   DwarfRegNum<[3]>;
+def FR4   : ZebiusReg< 4, "FR4">,   DwarfRegNum<[4]>;
+def FR5   : ZebiusReg< 5, "FR5">,   DwarfRegNum<[5]>;
+def FR6   : ZebiusReg< 6, "FR6">,   DwarfRegNum<[6]>;
+def FR7   : ZebiusReg< 7, "FR7">,   DwarfRegNum<[7]>;
+def FR8   : ZebiusReg< 8, "FR8">,   DwarfRegNum<[8]>;
+def FR9   : ZebiusReg< 9, "FR9">,   DwarfRegNum<[9]>;
+def FR10   : ZebiusReg< 10, "FR10">,  DwarfRegNum<[10]>;
+def FR11   : ZebiusReg< 11, "FR11">,  DwarfRegNum<[11]>;
+def FR12   : ZebiusReg< 12, "FR12">,  DwarfRegNum<[12]>;
+def FR13   : ZebiusReg< 13, "FR13">,  DwarfRegNum<[13]>;
+def FR14   : ZebiusReg< 14, "FR14">,  DwarfRegNum<[14]>;
+def FR15   : ZebiusReg< 15, "FR15">,  DwarfRegNum<[15]>;
 
 
 def IntRegs : RegisterClass<"Sample", [i32], 32, (add
@@ -66,7 +66,7 @@ class Format<bits<3> val> {
 
 def Pseudo    : Format<0>;
 def FormDisp  : Format<1>;
-def FormReg1  : Format<2>;
+def FormTwoRegs  : Format<2>;
 def FormReg2  : Format<3>;
 def FormReg3  : Format<4>;
 
@@ -117,7 +117,7 @@ class ZebiusInstTwoRegs<bits<4> op, dag outs, dag ins, string asmstr, list<dag> 
   let Opcode = op;
 
   let Inst{11-8} = rn;
-  let Inst{7-4}  = imm;
+  let Inst{7-4}  = rm;
   let Inst{3-0}  = app;
 }
 
