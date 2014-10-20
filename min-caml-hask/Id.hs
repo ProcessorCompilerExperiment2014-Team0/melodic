@@ -3,10 +3,12 @@ module Id where
 import Data.String
 import Control.Monad.State
 
+-- Names of identifiers (both variables and/or globals).
+data Id = Id !String deriving (Eq, Ord, Show)
 -- Names of variables.
-data Id = Id !String
+data VId = VId !String deriving (Eq, Ord, Show)
 -- Names of top-level functions and/or global arrays.
-data LId = LId !String
+data LId = LId !String deriving (Eq, Ord, Show)
 
 instance IsString Id where
   fromString = Id

@@ -9,6 +9,7 @@ data Type
   | TTuple ![Type]
   | TArray !Type
   | TVar !(Maybe Type)
+  deriving (Eq, Show)
 
 genType :: Type
 genType = TVar Nothing

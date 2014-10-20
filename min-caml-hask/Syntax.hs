@@ -30,5 +30,7 @@ data Syntax
   | Array !Syntax !Syntax
   | Get !Syntax !Syntax
   | Put !Syntax !Syntax !Syntax
+  deriving (Eq, Show)
 data Fundef = Fundef { name :: !(Id.Id, Type.Type), args :: ![(Id.Id, Type.Type)], body :: !Syntax }
+  deriving (Eq, Show)
 
