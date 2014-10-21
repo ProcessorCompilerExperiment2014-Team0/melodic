@@ -3,7 +3,7 @@ CMP   = $(BUILD)compiler
 ASM   = $(BUILD)assembler
 EXEC  = $(BUILD)executer
 
-TESTS = test/fib.test
+TESTS = test/ack.test test/fib.test test/gcd.test
 
 .PHONY: all clean
 all: $(TESTS)
