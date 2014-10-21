@@ -1,11 +1,12 @@
 module KNormal where
 
+import Control.Monad
 import Data.Set (Set, difference, union)
 import qualified Data.Set as Set
 import Data.Map (Map)
 import qualified Data.Map as Map
 
-import Id (CounterT, Id)
+import Id (CounterT, Id(Id))
 import qualified Id as Id
 import Type
 import Syntax hiding (name, args, body)
@@ -144,4 +145,42 @@ kNormalSub env expr = case expr of
               g_e@(_, t) <- kNormalSub env e
               insertLet g_e (\x -> bind (xs ++ [x]) (ts ++ [t]) rest) in
       bind [] [] es
+  LetTuple xts e1 e2 -> do
+      k1 <- kNormalSub env e1
+      insertLet k1
+        (\ y -> do
+          (e2', t2) <- kNormalSub (Map.fromList xts `Map.union` env) e2
+          return (KLetTuple xts y e2', t2))
+  Array e1 e2 -> do
+      k1 <- kNormalSub env e1
+      insertLet k1
+	(\ x -> do
+          g_e2@(_, t2) <- kNormalSub env e2
+          insertLet g_e2
+            (\ y ->
+              let l =
+                   case t2 of
+                    TFloat -> "create_float_array"
+                    _ -> "create_array" in
+              return (KExtFunApp (Id l) [x, y], TArray t2)))
+  Get e1 e2 -> do
+      res <- kNormalSub env e1
+      case res of
+        g_e1@(_, TArray t) -> do
+          res2 <- kNormalSub env e2
+          insertLet g_e1
+            (\ x -> insertLet res2
+                (\ y -> return (KGet x y, t)))
+        _ -> error "error in knormal-get"
+  Put e1 e2 e3 -> do
+      k1 <- kNormalSub env e1
+      k2 <- kNormalSub env e2
+      k3 <- kNormalSub env e3
+      insertLet k1
+        (\ x -> insertLet k2
+            (\ y -> insertLet k3
+                (\ z -> return (KPut x y z, TUnit))))
+
+kNormal :: Monad m => Syntax -> CounterT m KNormal
+kNormal e = liftM fst (kNormalSub Map.empty e)
 
