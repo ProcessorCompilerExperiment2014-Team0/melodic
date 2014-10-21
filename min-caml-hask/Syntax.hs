@@ -11,15 +11,10 @@ data Syntax
   | Float !Float
   | Not !Syntax
   | Neg !Syntax
-  | Add !Syntax !Syntax
-  | Sub !Syntax !Syntax
+  | ArithBin !ArithBinOp !Syntax !Syntax
   | FNeg !Syntax
-  | FAdd !Syntax !Syntax
-  | FSub !Syntax !Syntax
-  | FMul !Syntax !Syntax
-  | FDiv !Syntax !Syntax
-  | Eq !Syntax !Syntax
-  | LE !Syntax !Syntax
+  | FloatBin !FloatBinOp !Syntax !Syntax
+  | Cmp !CmpOp !Syntax !Syntax
   | If !Syntax !Syntax !Syntax
   | Let !Id.Id !Type.Type !Syntax !Syntax
   | Var !Id.Id
@@ -33,4 +28,11 @@ data Syntax
   deriving (Eq, Show)
 data Fundef = Fundef { name :: !(Id.Id, Type.Type), args :: ![(Id.Id, Type.Type)], body :: !Syntax }
   deriving (Eq, Show)
+
+data ArithBinOp
+  = Add | Sub deriving (Eq, Show)
+data CmpOp
+  = Eq | LE deriving (Eq, Show)
+data FloatBinOp
+  = FAdd | FSub | FMul | FDiv deriving (Eq, Show)
 

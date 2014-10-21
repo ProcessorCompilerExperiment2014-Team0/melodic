@@ -1,7 +1,9 @@
 module Id where
 
-import Data.String
+import Control.Monad.Identity (Identity)
 import Control.Monad.State
+import Data.String
+import Type
 
 -- Names of identifiers (both variables and/or globals).
 data Id = Id !String deriving (Eq, Ord, Show)
@@ -17,24 +19,30 @@ instance IsString LId where
 
 type CounterT = StateT Int
 
-genId :: Monad m => String -> CounterT m String
+genId :: Monad m => String -> CounterT m Id
 genId str = do
   x <- get
   put (x + 1)
-  return $ str ++ "." ++ show x
+  return $ Id $ str ++ "." ++ show x
 
-{-
-let rec id_of_typ = function
-  | Type.Unit -> "u"
-  | Type.Bool -> "b"
-  | Type.Int -> "i"
-  | Type.Float -> "d"
-  | Type.Fun _ -> "f"
-  | Type.Tuple _ -> "t"
-  | Type.Array _ -> "a" 
-  | Type.Var _ -> assert false
-let gentmp typ =
-  incr counter;
-  Printf.sprintf "T%s%d" (id_of_typ typ) !counter
--}
+typeToId :: Type -> String
+typeToId t = case t of
+  TUnit -> "u"
+  TBool -> "b"
+  TInt -> "i"
+  TFloat -> "d"
+  TFun {} -> "f"
+  TTuple _ -> "t"
+  TArray _ -> "a" 
+  TVar _ -> undefined
 
+genTmp :: Monad m =>  Type -> CounterT m Id
+genTmp ty = do
+  x <- get
+  put (x + 1)
+  return $ Id $ "T" ++ typeToId ty ++ show x
+
+runCounter :: CounterT Identity a -> a
+runCounter m = evalState m 0
+runCounterT :: Monad m => CounterT m a -> m a
+runCounterT m = evalStateT m 0
