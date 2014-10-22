@@ -1,7 +1,3 @@
-*.hi
-*.o
 *~
-*.s
-*.x
 Test
 build/
