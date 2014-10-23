@@ -42,8 +42,8 @@ tokens :-
   "<"  { \_ -> LT }
   ">"  { \_ -> GT }
   "if"  { \_ -> IF }
-  "else"  { \_ -> THEN }
-  "then"  { \_ -> ELSE }
+  "else"  { \_ -> ELSE }
+  "then"  { \_ -> THEN }
   "let"  { \_ -> LET }
   "in"  { \_ -> IN }
   "rec"  { \_ -> REC }
