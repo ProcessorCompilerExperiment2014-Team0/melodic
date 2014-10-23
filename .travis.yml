@@ -1,5 +1,5 @@
 language: haskell
-before_script:  cd min-caml-hask
+before_install:  cd min-caml-hask
 ghc:
   - 7.6
   - 7.4
