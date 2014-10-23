@@ -1,0 +1,6 @@
+language: haskell
+before_script:  cd min-caml-hask
+ghc:
+  - 7.6
+  - 7.4
+
