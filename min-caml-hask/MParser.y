@@ -3,8 +3,7 @@
 module MParser where
 
 import Prelude hiding (EQ, LT, GT)
-import qualified Data.List as List
-import Control.Exception (throw)
+import Control.Applicative
 
 import qualified MLexer
 import MLexer hiding (lex)
@@ -184,5 +183,20 @@ pat:
 addType :: Id -> (Id, Type)
 addType x = (x, Type.genType)
 
+parseError :: [Token] -> Either String a
 parseError toks = Left $ "parseError" ++ show toks
+
+removeComments :: Int -> [Token] -> Either String [Token]
+removeComments 0 [] = return [] 
+removeComments _ [] = Left "Unclosed comment."
+removeComments n (COMM_BEGIN : ls) = removeComments (n+1) ls
+removeComments 0 (COMM_END : _) = Left "Unexpected COMMENT END \"*)\""
+removeComments n (COMM_END : ls) = removeComments (n-1) ls
+removeComments n (x : ls) = do
+  rest <- removeComments n ls
+  if n == 0 then return (x : rest) else return rest
+
+parse :: [Token] -> Either String Syntax
+parse toks = mparse =<< removeComments 0 toks
+
 }
