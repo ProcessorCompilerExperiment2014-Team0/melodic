@@ -102,7 +102,7 @@ exp: -- 一般の式
     { ArithBin Sub $1 $3 }
 | exp "=" exp
     { Cmp Eq $1 $3 }
-| exp "<=" exp
+| exp "<>" exp
     { Not(Cmp Eq $1 $3) }
 | exp "<" exp
     { Not(Cmp Syntax.LE $3 $1) }
