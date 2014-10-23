@@ -34,6 +34,7 @@ repl str = do
   let syntax = parse lexed
   print syntax
 
+main :: IO ()
 main = do
   args <- getArgs
   let (conf, files) = parseOpt args
