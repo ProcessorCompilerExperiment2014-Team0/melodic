@@ -53,7 +53,7 @@ tokens :-
   "."   { \_ -> DOT }
   "<-"   { \_ -> LESS_MINUS }
   ";"   { \_ -> SEMICOLON }
-  $lower ($digit|$lower|$upper|"\_")* { \x -> ID (Id x) }
+  $lower ($digit|$lower|$upper|\_)* { \x -> ID (Id x) }
   $unknown+  { UNKNOWN }
 
 {
@@ -72,5 +72,5 @@ readFloat s
   | otherwise = read s
 
 lex :: String -> [Token]
-lex s = alexScanTokens s ++ [EOF]
+lex s = alexScanTokens s
 }
