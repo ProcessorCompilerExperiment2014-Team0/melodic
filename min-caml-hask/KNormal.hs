@@ -6,7 +6,7 @@ import qualified Data.Set as Set
 import Data.Map (Map)
 import qualified Data.Map as Map
 
-import Id (CounterT, Id(Id))
+import Id (CounterT, Id(Id), runCounter)
 import qualified Id as Id
 import Type
 import Syntax hiding (name, args, body)
@@ -81,23 +81,23 @@ kNormalSub env expr = case expr of
   Neg e    -> do
       result <- kNormalSub env e
       insertLet result
-	(\x -> return (KNeg x, TInt))
+        (\x -> return (KNeg x, TInt))
   ArithBin op e1 e2 -> do
       k1 <- kNormalSub env e1
       k2 <- kNormalSub env e2
       insertLet k1
-	(\x -> insertLet k2
-	    (\y -> return (KArithBin op x y, TInt)))
+        (\x -> insertLet k2
+            (\y -> return (KArithBin op x y, TInt)))
   FNeg e    -> do
       result <- kNormalSub env e
       insertLet result
-	(\x -> return (KFNeg x, TInt))
+        (\x -> return (KFNeg x, TInt))
   FloatBin op e1 e2 -> do
       k1 <- kNormalSub env e1
       k2 <- kNormalSub env e2
       insertLet k1
-	(\x -> insertLet k2
-	    (\y -> return (KFloatBin op x y, TInt)))
+        (\x -> insertLet k2
+            (\y -> return (KFloatBin op x y, TInt)))
   cmp@Cmp {} ->
       kNormalSub env (If cmp (Bool True) (Bool False))
   If (Not x) e1 e2 -> kNormalSub env (If x e2 e1) -- condition with not
@@ -105,8 +105,8 @@ kNormalSub env expr = case expr of
       k1 <- kNormalSub env e1
       k2 <- kNormalSub env e2
       insertLet k1
-	(\x -> insertLet k2
-	    (\y -> do
+        (\x -> insertLet k2
+            (\y -> do
                (etr', ttr) <- kNormalSub env etr
                (efl', _tfl) <- kNormalSub env efl
                return (KIf cmp x y etr' efl', ttr)
@@ -129,9 +129,9 @@ kNormalSub env expr = case expr of
       result <- kNormalSub env e1
       case result of
         g_e1@(_, TFun _ t) ->
-	  insertLet g_e1
-	    (\f ->
-	      let bind xs ess = case ess of -- "xs" are identifiers for the arguments
+          insertLet g_e1
+            (\f ->
+              let bind xs ess = case ess of -- "xs" are identifiers for the arguments
                    [] -> return (KApp f xs, t)
                    e2 : rest -> do
                     res <- kNormalSub env e2
@@ -154,7 +154,7 @@ kNormalSub env expr = case expr of
   Array e1 e2 -> do
       k1 <- kNormalSub env e1
       insertLet k1
-	(\ x -> do
+        (\ x -> do
           g_e2@(_, t2) <- kNormalSub env e2
           insertLet g_e2
             (\ y ->
@@ -181,6 +181,9 @@ kNormalSub env expr = case expr of
             (\ y -> insertLet k3
                 (\ z -> return (KPut x y z, TUnit))))
 
-kNormal :: Monad m => Syntax -> CounterT m KNormal
-kNormal e = liftM fst (kNormalSub Map.empty e)
+kNormalM :: Monad m => Syntax -> CounterT m KNormal
+kNormalM e = liftM fst (kNormalSub Map.empty e)
+
+kNormal :: Syntax -> KNormal
+kNormal e = runCounter (kNormalM e)
 

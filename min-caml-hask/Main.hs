@@ -5,6 +5,9 @@ import System.Environment
 
 import qualified MLexer
 import MParser (parse)
+import KNormal (kNormal)
+import Alpha (alpha)
+import Closure (trans)
 
 data Config = Config { threshold :: Int, limit :: Int }
 
@@ -33,6 +36,15 @@ repl str = do
   print lexed
   let syntax = parse lexed
   print syntax
+  case syntax of
+    Right syn -> do
+      let kn = kNormal syn
+      print kn
+      let al = alpha kn
+      print al
+      let clos = trans al
+      print clos
+    Left x -> error x
 
 main :: IO ()
 main = do
