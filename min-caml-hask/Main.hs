@@ -5,8 +5,10 @@ import System.Console.GetOpt
 import System.Environment
 
 import qualified MLexer
+import Id
+import Type
 import MParser (parse)
-import Typing (typing)
+import Typing
 import KNormal (kNormal)
 import Alpha (alpha)
 import Closure (trans)
@@ -33,6 +35,9 @@ usage = "MinCaml on Haskell\n"
       ++ "usage: min-caml [--inline m] [--iter n] ...filenames without \".ml\"..."
 
 
+extenv :: TypeEnv
+extenv = Map.fromList [(Id "print_int", TFun [TInt] TUnit)]
+
 repl :: String -> IO ()
 repl str = do
   let lexed = MLexer.lex str
@@ -41,7 +46,7 @@ repl str = do
   print syntax
   case syntax of
     Right syn -> do
-　　　　　　let typed = either (error . show) id (typing Map.empty syn)
+　　　　　　let typed = either (error . show) id (typing extenv syn)
       print typed
       let kn = kNormal typed
       print kn

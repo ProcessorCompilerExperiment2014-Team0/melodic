@@ -28,7 +28,14 @@ type UnifyEnv = Map String Type
 
 
 unify :: Type -> Type -> M ()
-unify _ _ = return ()
+unify TUnit TUnit = return ()
+unify TInt TInt = return ()
+unify TBool TBool = return ()
+unify TFloat TFloat = return ()
+unify (TFun xs x) (TFun ys y) = do
+  zipWithM_ unify xs ys
+  unify x y
+unify x y = throwError (UnifyError x y)
 
 checkBinary :: Type -> Syntax -> Syntax -> M ()
 checkBinary ty e1 e2 = do
