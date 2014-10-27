@@ -1,13 +1,16 @@
 module Main where
 
+import qualified Data.Map as Map
 import System.Console.GetOpt
 import System.Environment
 
 import qualified MLexer
 import MParser (parse)
+import Typing (typing)
 import KNormal (kNormal)
 import Alpha (alpha)
 import Closure (trans)
+
 
 data Config = Config { threshold :: Int, limit :: Int }
 
@@ -38,7 +41,9 @@ repl str = do
   print syntax
   case syntax of
     Right syn -> do
-      let kn = kNormal syn
+　　　　　　let typed = either (error . show) id (typing Map.empty syn)
+      print typed
+      let kn = kNormal typed
       print kn
       let al = alpha kn
       print al

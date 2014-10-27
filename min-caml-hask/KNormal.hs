@@ -5,6 +5,7 @@ import Data.Set (Set, difference, union)
 import qualified Data.Set as Set
 import Data.Map (Map)
 import qualified Data.Map as Map
+import Debug.Trace
 
 import Id (CounterT, Id(Id), runCounter)
 import qualified Id as Id
@@ -127,7 +128,7 @@ kNormalSub env expr = case expr of
   App (Var f) _e2s | Map.notMember f env -> error "extfun-call not impl" -- call of external functions
   App e1 e2s -> do
       result <- kNormalSub env e1
-      case result of
+      trace ("result = " ++ show result) $ case result of
         g_e1@(_, TFun _ t) ->
           insertLet g_e1
             (\f ->

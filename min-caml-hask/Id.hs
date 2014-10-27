@@ -19,6 +19,12 @@ instance IsString LId where
 
 type CounterT = StateT Int
 
+fresh :: Monad m => CounterT m Int
+fresh = do
+  x <- get
+  put (x + 1)
+  return x
+
 genId :: Monad m => String -> CounterT m Id
 genId str = do
   x <- get

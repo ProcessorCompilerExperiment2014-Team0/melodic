@@ -8,9 +8,9 @@ data Type
   | TFun ![Type] !Type -- arguments are uncurried
   | TTuple ![Type]
   | TArray !Type
-  | TVar !(Maybe Type)
+  | TVar !String
   deriving (Eq, Show)
 
 genType :: Type
-genType = TVar Nothing
+genType = TVar ""
 
