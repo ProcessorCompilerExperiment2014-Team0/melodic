@@ -27,6 +27,14 @@ uniqType = TVar <$> (("T" ++) <$> (show <$> fresh))
 type UnifyEnv = Map String Type
 
 
+-- | If type variable x occurs in y, occur x y returns True.
+occur :: String -> Type -> Bool
+occur x (TVar y) = x == y
+occur x (TFun ys y) = all (occur x) ys || occur x y
+occur x (TTuple ys) = all (occur x) ys
+occur x (TArray y) = occur x y
+occur _ _ = False
+
 unify :: Type -> Type -> M ()
 unify TUnit TUnit = return ()
 unify TInt TInt = return ()
@@ -45,6 +53,7 @@ unify (TVar x) y = do
   case hasX of
     Just ty -> unify ty y
     Nothing -> do -- add to environment
+      when (occur x y) $ throwError $ UnifyError (TVar x) y
       lift $ modify (Map.insert x y)
       return ()
 unify x y@(TVar _) = unify y x
@@ -97,20 +106,20 @@ typingSub syn = case syn of
     return t
   Tuple es -> TTuple <$> mapM typingSub es
   LetTuple xts e1 e2 -> do
-    unify (TTuple (map snd xts)) <$> typingSub e1
+    unify (TTuple (map snd xts)) =<< typingSub e1
     local (Map.fromList xts `Map.union`) (typingSub e2)
   Array e1 e2 -> do
-    unify TInt <$> typingSub e1
+    unify TInt =<< typingSub e1
     TArray <$> typingSub e2
   Get e1 e2 -> do
     t <- uniqType
-    unify (TArray t) <$> typingSub e1
-    unify TInt <$> typingSub e2
+    unify (TArray t) =<< typingSub e1
+    unify TInt =<< typingSub e2
     return t
   Put e1 e2 e3 -> do
     t <- typingSub e3
-    unify (TArray t) <$> typingSub e1
-    unify TInt <$> typingSub e2
+    unify (TArray t) =<< typingSub e1
+    unify TInt =<< typingSub e2
     return TUnit
 
 -- | replace type variables with unique type variables
