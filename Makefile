@@ -18,7 +18,7 @@ test/%.x: test/%.s $(ASM)
 	$(ASM) test/$*.s
 	mv test/$* test/$*.x
 test/%.s: test/%.ml $(CMP)
-	$(CMP) test/$*
+	$(CMP) -lib min-caml/zebius/libmincaml.txt test/$*
 $(CMP):
 	cd min-caml; ./to_zebius
 	make -C min-caml min-caml
