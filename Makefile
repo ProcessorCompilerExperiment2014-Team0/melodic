@@ -2,8 +2,9 @@ BUILD = build/
 CMP   = $(BUILD)compiler
 ASM   = $(BUILD)assembler
 EXEC  = $(BUILD)executer
+LIB = min-caml/zebius/libmincaml.txt
 
-TESTS = test/ack.test test/fib.test test/gcd.test
+TESTS = test/ack.test test/fib.test test/gcd.test test/float-easy.test
 
 .PHONY: all clean
 all: $(TESTS)
@@ -12,13 +13,13 @@ clean:
 	-make -C min-caml clean
 	-cd Zebius/asm; omake clean
 	-make -C Zebius/sim clean
-test/%.test: test/%.x $(EXEC)
-	$(EXEC) test/$*.x
+test/%.test: test/%.x test/%.cons $(EXEC)
+	$(EXEC) test/$*.x test/$*.cons >/dev/null
 test/%.x: test/%.s $(ASM)
 	$(ASM) test/$*.s
 	mv test/$* test/$*.x
-test/%.s: test/%.ml $(CMP)
-	$(CMP) -lib min-caml/zebius/libmincaml.txt test/$*
+test/%.s: test/%.ml $(CMP) $(LIB)
+	$(CMP) -lib $(LIB) test/$*
 $(CMP):
 	cd min-caml; ./to_zebius
 	make -C min-caml min-caml
