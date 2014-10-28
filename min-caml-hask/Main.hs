@@ -43,12 +43,15 @@ repl str = do
   let lexed = MLexer.lex str
   print lexed
   let syntax = parse lexed
+  putStrLn "AST:"
   print syntax
   case syntax of
     Right syn -> do
 　　　　　　let typed = either (error . show) id (typing extenv syn)
+      putStrLn "Typed AST:"
       print typed
       let kn = kNormal typed
+      putStrLn "k-normal form:"
       print kn
       let al = alpha kn
       print al
