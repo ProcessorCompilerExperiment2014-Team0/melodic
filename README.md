@@ -10,6 +10,11 @@ For test, run
 make
 ```
 and files in `test/` will be tested.
+To run raytracer (in `raytracer/`), run
+```
+make raytrace
+```
+and raytracer is compiled (to `raytracer/min-rt`).
 # Dependencies
 * omake (dependency of **Zebius**)
 
