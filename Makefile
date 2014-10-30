@@ -32,3 +32,7 @@ $(EXEC): Zebius
 	make -C Zebius/sim
 	cp Zebius/sim/zsim $(EXEC)
 
+
+raytrace: raytracer/min-rt.ml $(CMP)
+	$(CMP) -glib raytracer/globals raytracer/min-rt
+
