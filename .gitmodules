@@ -4,3 +4,6 @@
 [submodule "Zebius"]
 	path = Zebius
 	url = https://github.com/ProcessorCompilerExperiment2014-Team0/Zebius
+[submodule "min-caml-hask"]
+	path = min-caml-hask
+	url = https://github.com/koba-e964/min-caml-hask

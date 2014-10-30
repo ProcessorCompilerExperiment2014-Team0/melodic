@@ -1,9 +1,0 @@
-*.hi
-*.o
-*~
-MLexer.hs
-MParser.hs
-.cabal-sandbox/
-cabal.sandbox.config
-dist/
-
