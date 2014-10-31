@@ -15,9 +15,11 @@ clean:
 	-cd Zebius/asm; omake clean
 	-make -C Zebius/sim clean
 test/%.test: test/%.x test/%.cons $(EXEC)
-	$(EXEC) test/$*.x test/$*.cons >/dev/null
+	$(EXEC) test/$*.x test/$*.cons 2>$*.err; if test $$? -ne 0 ; then cat $*.err; false; fi
+	rm $*.err
+	
 test/%.x: test/%.s $(ASM)
-	$(ASM) test/$*.s
+	$(ASM) test/$*.s >/dev/null
 	mv test/$* test/$*.x
 test/%.s: test/%.ml $(CMP) $(LIB)
 	$(CMP) -lib $(LIB) test/$*
