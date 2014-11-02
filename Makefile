@@ -28,9 +28,10 @@ test/%-main.s: test/%-lib.ml test/%-main.ml $(CMP) $(LIB)
 	$(CMP) -lib $(LIB) -glib test/$*-lib test/$*-main
 test/%.s: test/%.ml $(CMP) $(LIB)
 	$(CMP) -lib $(LIB) test/$*
-$(CMP): min-caml/min-caml
+min-caml/min-caml:
 	cd min-caml; ./to_zebius
 	make -C min-caml min-caml
+$(CMP): min-caml/min-caml
 	cp min-caml/min-caml $(CMP)
 $(ASM): Zebius
 	cd Zebius/asm; omake
