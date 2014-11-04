@@ -8,6 +8,7 @@ TESTS = test/ack.test test/fib.test test/gcd.test test/inprod.test \
   test/gcd.testlib test/extvar.testlib \
   test/cls-bug.test test/cls-bug2.test \
   test/join-reg.test test/join-reg2.test \
+  test/join-stack.test test/join-stack2.test test/join-stack3.test \
   test/float-easy.test test/float-sqrt.test \
   test/float-atan.test test/float-sin.test test/float-cos.test test/float.test 
 
