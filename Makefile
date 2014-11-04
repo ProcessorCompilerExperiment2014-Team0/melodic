@@ -4,8 +4,11 @@ ASM   = $(BUILD)assembler
 EXEC  = $(BUILD)executer
 LIB = min-caml/zebius/libmincaml.txt
 
-TESTS = test/ack.test test/fib.test test/gcd.test test/inprod.test test/float-easy.test test/float-sqrt.test \
-  test/float-atan.test test/float-sin.test test/float-cos.test test/float.test test/gcd.testlib
+TESTS = test/ack.test test/fib.test test/gcd.test test/inprod.test \
+  test/gcd.testlib test/extvar.testlib \
+  test/cls-bug.test test/cls-bug2.test \
+  test/float-easy.test test/float-sqrt.test \
+  test/float-atan.test test/float-sin.test test/float-cos.test test/float.test 
 
 .PHONY: all clean
 all: $(TESTS)
