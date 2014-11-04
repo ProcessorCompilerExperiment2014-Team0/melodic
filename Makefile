@@ -9,6 +9,7 @@ TESTS = test/ack.test test/fib.test test/gcd.test test/inprod.test \
   test/cls-bug.test test/cls-bug2.test \
   test/join-reg.test test/join-reg2.test \
   test/join-stack.test test/join-stack2.test test/join-stack3.test \
+  test/print_char.teststdio \
   test/float-easy.test test/float-sqrt.test \
   test/float-atan.test test/float-sin.test test/float-cos.test test/float.test 
 
@@ -25,7 +26,9 @@ test/%.test: test/%.x test/%.cons $(EXEC)
 test/%.testlib: test/%-main.x test/%-main.cons $(EXEC)
 	$(EXEC) test/$*-main.x test/$*-main.cons 2>test/$*-main.err; if test $$? -ne 0 ; then cat test/$*-main.err; false; fi
 	rm test/$*-main.err
-	
+test/%.teststdio: test/%.x $(EXEC)
+	$(EXEC) test/$*.x 2>test/$*.err; if test $$? -ne 0 ; then cat test/$*.err; false; fi
+	rm test/$*.err
 test/%.x: test/%.s $(ASM)
 	$(ASM) test/$*.s >/dev/null
 	mv test/$* test/$*.x
@@ -48,4 +51,7 @@ $(EXEC): Zebius
 
 raytrace: raytracer/min-rt.ml $(CMP)
 	$(CMP) -glib raytracer/globals raytracer/min-rt -lib min-caml/zebius/libmincaml.txt
+	$(ASM) raytracer/min-rt.s
+	mv raytracer/min-rt raytracer/min-rt.x
+	$(EXEC) raytracer/min-rt.x
 
