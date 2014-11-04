@@ -47,5 +47,5 @@ $(EXEC): Zebius
 
 
 raytrace: raytracer/min-rt.ml $(CMP)
-	$(CMP) -glib raytracer/globals raytracer/min-rt
+	$(CMP) -glib raytracer/globals raytracer/min-rt -lib min-caml/zebius/libmincaml.txt
 
