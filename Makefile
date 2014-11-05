@@ -55,3 +55,8 @@ raytrace: raytracer/min-rt.ml raytracer/globals.ml $(CMP)
 	$(ASM) raytracer/min-rt.s
 	mv raytracer/min-rt raytracer/min-rt.x
 
+flfuntest: ppmtest.ml
+	$(CMP) $(MCCFLAGS) ppmtest -lib min-caml/zebius/libmincaml.txt
+	$(ASM) ppmtest.s
+	$(EXEC) ppmtest >ppm.ppm
+
