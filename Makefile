@@ -33,9 +33,9 @@ test/%.x: test/%.s $(ASM)
 	$(ASM) test/$*.s >/dev/null
 	mv test/$* test/$*.x
 test/%-main.s: test/%-lib.ml test/%-main.ml $(CMP) $(LIB)
-	$(CMP) -lib $(LIB) -glib test/$*-lib test/$*-main
+	$(CMP) -i -lib $(LIB) -glib test/$*-lib test/$*-main
 test/%.s: test/%.ml $(CMP) $(LIB)
-	$(CMP) -lib $(LIB) test/$*
+	$(CMP) -i -lib $(LIB) test/$*
 min-caml/min-caml:
 	cd min-caml; ./to_zebius
 	make -C min-caml min-caml
@@ -50,8 +50,7 @@ $(EXEC): Zebius
 
 
 raytrace: raytracer/min-rt.ml $(CMP)
-	$(CMP) -glib raytracer/globals raytracer/min-rt -lib min-caml/zebius/libmincaml.txt
+	$(CMP) -i -glib raytracer/globals raytracer/min-rt -lib min-caml/zebius/libmincaml.txt
 	$(ASM) raytracer/min-rt.s
 	mv raytracer/min-rt raytracer/min-rt.x
-	$(EXEC) raytracer/min-rt.x
 
