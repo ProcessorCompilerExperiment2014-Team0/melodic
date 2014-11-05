@@ -7,6 +7,6 @@ clean :
 	./sld_bin <$< >$@
 
 %.run: %.sldb
-	../build/executer ../raytracer/min-rt.x -m <$< >$*.ppm 2>/dev/null
+	../build/executer ../raytracer/min-rt.x <$< >$*.ppm 2>/dev/null
 
 

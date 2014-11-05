@@ -1,0 +1,5 @@
+*.ppm
+*.sldb
+sld_bin
+*.o
+

@@ -2,6 +2,7 @@ BUILD = build/
 CMP   = $(BUILD)compiler
 ASM   = $(BUILD)assembler
 EXEC  = $(BUILD)executer
+MCCFLAGS = -i -inline 5
 LIB = min-caml/zebius/libmincaml.txt
 
 TESTS = test/ack.test test/fib.test test/gcd.test test/inprod.test \
@@ -33,9 +34,9 @@ test/%.x: test/%.s $(ASM)
 	$(ASM) test/$*.s >/dev/null
 	mv test/$* test/$*.x
 test/%-main.s: test/%-lib.ml test/%-main.ml $(CMP) $(LIB)
-	$(CMP) -i -lib $(LIB) -glib test/$*-lib test/$*-main
+	$(CMP) $(MCCFLAGS) -lib $(LIB) -glib test/$*-lib test/$*-main
 test/%.s: test/%.ml $(CMP) $(LIB)
-	$(CMP) -i -lib $(LIB) test/$*
+	$(CMP) $(MCCFLAGS) -lib $(LIB) test/$*
 min-caml/min-caml:
 	cd min-caml; ./to_zebius
 	make -C min-caml min-caml
@@ -49,8 +50,8 @@ $(EXEC): Zebius
 	cp Zebius/sim/zsim $(EXEC)
 
 
-raytrace: raytracer/min-rt.ml $(CMP)
-	$(CMP) -i -glib raytracer/globals raytracer/min-rt -lib min-caml/zebius/libmincaml.txt
+raytrace: raytracer/min-rt.ml raytracer/globals.ml $(CMP)
+	$(CMP) $(MCCFLAGS) -glib raytracer/globals raytracer/min-rt -lib min-caml/zebius/libmincaml.txt
 	$(ASM) raytracer/min-rt.s
 	mv raytracer/min-rt raytracer/min-rt.x
 
