@@ -1,2 +1,2 @@
-print_int (int_of_float ( 10000000. *. atan 14.))
+print_int (int_of_float ( 524288. *. atan 14.))
 
