@@ -39,23 +39,23 @@ test/%.s: test/%.ml $(CMP) $(LIB)
 	$(CMP) $(MCCFLAGS) -lib $(LIB) test/$*
 min-caml/min-caml:
 	cd min-caml; ./to_zebius
-	make -C min-caml min-caml
+	$(MAKE) -C min-caml min-caml
 $(CMP): min-caml/min-caml
 	cp min-caml/min-caml $(CMP)
 $(ASM): Zebius
 	cd Zebius/asm; omake
 	cp Zebius/asm/zasm $(ASM)
 $(EXEC): Zebius
-	make -C Zebius/sim
+	$(MAKE) -C Zebius/sim
 	cp Zebius/sim/zsim $(EXEC)
 
 
-raytrace: raytracer/min-rt.ml raytracer/globals.ml $(CMP)
+raytrace: raytracer/min-rt.ml raytracer/globals.ml $(CMP) $(ASM)
 	$(CMP) $(MCCFLAGS) -glib raytracer/globals raytracer/min-rt -lib min-caml/zebius/libmincaml.txt
 	$(ASM) raytracer/min-rt.s
 	mv raytracer/min-rt raytracer/min-rt.x
 
-flfuntest: ppmtest.ml
+flfuntest: ppmtest.ml $(CMP) $(ASM) $(EXEC)
 	$(CMP) $(MCCFLAGS) ppmtest -lib min-caml/zebius/libmincaml.txt
 	$(ASM) ppmtest.s
 	$(EXEC) ppmtest >ppm.ppm
