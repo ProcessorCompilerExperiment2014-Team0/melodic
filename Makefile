@@ -11,6 +11,10 @@ TESTS = test/ack.test test/fib.test test/gcd.test test/inprod.test \
   test/join-reg.test test/join-reg2.test \
   test/join-stack.test test/join-stack2.test test/join-stack3.test \
   test/print_char.teststdio \
+  test/sum.test test/sum-tail.test \
+  test/spill.test test/spill2.test test/spill3.test \
+  test/matmul.teststdio test/matmul-flat.teststdio \
+  test/ary-test.teststdio \
   test/float-easy.test test/float-sqrt.test \
   test/float-atan.test test/float-sin.test test/float-cos.test test/float.test 
 
