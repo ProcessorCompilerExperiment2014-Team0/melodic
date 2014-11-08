@@ -42,7 +42,6 @@ test/%-main.s: test/%-lib.ml test/%-main.ml $(CMP) $(LIB)
 test/%.s: test/%.ml $(CMP) $(LIB)
 	$(CMP) $(MCCFLAGS) -lib $(LIB) test/$*
 min-caml/min-caml:
-	cd min-caml; ./to_zebius
 	$(MAKE) -C min-caml min-caml
 $(CMP): min-caml/min-caml
 	cp min-caml/min-caml $(CMP)
