@@ -1,4 +1,4 @@
-CFLAGS = -g -std=c11 -O2 -Wall -Wextra
+CFLAGS = -g -std=c99 -O2 -Wall -Wextra
 sld_bin : sld_bin.o
 clean : 
 	rm *.o sld_bin
