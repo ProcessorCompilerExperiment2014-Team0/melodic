@@ -1,3 +1,14 @@
 language: c
-script: bash -ex .travis-ci.sh
+env:
+  - MCCFLAGS=-inline 0
+  - MCCFLAGS=-inline 5
+  - MCCFLAGS=-inline 10
+before_install:
+  - git submodule update --init --recursive
+script:
+  - sudo apt-get update -qq
+  - sudo apt-get install ocaml omake
+  - make MCCFLAGS=${MCCFLAGS}
+  - make ${MCCFLAGS} raytrace >/dev/null 2>dev/null
+  - time make -C ray-run/ contest.run
 
