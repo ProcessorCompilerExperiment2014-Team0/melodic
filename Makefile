@@ -3,7 +3,8 @@ CMP   = $(BUILD)compiler
 ASM   = $(BUILD)assembler
 EXEC  = $(BUILD)executer
 MCCFLAGS = -i -inline 5
-LIB = min-caml/zebius/libmincaml.txt
+LIB = min-caml/zebius/libmincaml.txt min-caml/lib/fl.ml
+STDLIB = -lib min-caml/zebius/libmincaml.txt -glib min-caml/lib/fl 
 
 TESTS = test/ack.test test/fib.test test/gcd.test test/inprod.test \
   test/gcd.testlib test/extvar.testlib \
@@ -38,9 +39,9 @@ test/%.x: test/%.s $(ASM)
 	$(ASM) test/$*.s >/dev/null
 	mv test/$* test/$*.x
 test/%-main.s: test/%-lib.ml test/%-main.ml $(CMP) $(LIB)
-	$(CMP) $(MCCFLAGS) -lib $(LIB) -glib test/$*-lib test/$*-main
+	$(CMP) $(MCCFLAGS) $(STDLIB) -glib test/$*-lib test/$*-main
 test/%.s: test/%.ml $(CMP) $(LIB)
-	$(CMP) $(MCCFLAGS) -lib $(LIB) test/$*
+	$(CMP) $(MCCFLAGS) $(STDLIB) test/$*
 min-caml/min-caml:
 	$(MAKE) -C min-caml min-caml
 $(CMP): min-caml/min-caml
@@ -53,13 +54,13 @@ $(EXEC): Zebius
 	cp Zebius/sim/zsim $(EXEC)
 
 
-raytrace: raytracer/min-rt.ml raytracer/globals.ml $(CMP) $(ASM)
-	$(CMP) $(MCCFLAGS) -glib raytracer/globals raytracer/min-rt -lib min-caml/zebius/libmincaml.txt
+raytrace: raytracer/min-rt.ml raytracer/globals.ml $(CMP) $(ASM) $(LIB)
+	$(CMP) $(MCCFLAGS) $(STDLIB) -glib raytracer/globals raytracer/min-rt
 	$(ASM) raytracer/min-rt.s
 	mv raytracer/min-rt raytracer/min-rt.x
 
-flfuntest: ppmtest.ml $(CMP) $(ASM) $(EXEC)
-	$(CMP) $(MCCFLAGS) ppmtest -lib min-caml/zebius/libmincaml.txt
+flfuntest: ppmtest.ml $(CMP) $(ASM) $(EXEC) $(LIB)
+	$(CMP) $(MCCFLAGS) $(STDLIB) ppmtest
 	$(ASM) ppmtest.s
 	$(EXEC) ppmtest >ppm.ppm
 
