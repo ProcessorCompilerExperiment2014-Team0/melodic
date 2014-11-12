@@ -6,6 +6,12 @@ env:
   - MCCFLAGS="-inline 0 -finv"
   - MCCFLAGS="-inline 5 -finv"
   - MCCFLAGS="-inline 10 -finv"
+  - MCCFLAGS="-inline 0 -fsqrt"
+  - MCCFLAGS="-inline 5 -fsqrt"
+  - MCCFLAGS="-inline 10 -fsqrt"
+  - MCCFLAGS="-inline 0 -finv -fsqrt"
+  - MCCFLAGS="-inline 5 -finv -fsqrt"
+  - MCCFLAGS="-inline 10 -finv -fsqrt"
 before_install:
   - git submodule update --init --recursive
 script:
