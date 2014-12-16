@@ -1,6 +1,6 @@
 [submodule "min-caml"]
 	path = min-caml
 	url = https://github.com/koba-e964/min-caml
-[submodule "Zebius"]
-	path = Zebius
-	url = https://github.com/ProcessorCompilerExperiment2014-Team0/Zebius
+[submodule "Zekamashi"]
+	path = Zekamashi
+	url = git@github.com:ProcessorCompilerExperiment2014-Team0/Zekamashi
