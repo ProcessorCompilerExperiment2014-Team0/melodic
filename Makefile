@@ -26,14 +26,11 @@ clean:
 	-make -C min-caml clean
 	-cd Zekamashi/asm; omake clean
 	-make -C Zekamashi/sim clean
-test/%.test: test/%.x test/%.cons $(EXEC)
-	$(EXEC) test/$*.x test/$*.cons 2>test/$*.err; if test $$? -ne 0 ; then cat test/$*.err; false; fi
-	rm test/$*.err
-test/%.testlib: test/%-main.x test/%-main.cons $(EXEC)
-	$(EXEC) test/$*-main.x test/$*-main.cons 2>test/$*-main.err; if test $$? -ne 0 ; then cat test/$*-main.err; false; fi
-	rm test/$*-main.err
-test/%.teststdio: test/%.x $(EXEC)
-	$(EXEC) test/$*.x 2>test/$*.err; if test $$? -ne 0 ; then cat test/$*.err; false; fi
+test/%.test: test/%.x test/%.ml $(EXEC) converter
+	$(EXEC) test/$*.x >test/$*.out 2>test/$*.err; if test $$? -ne 0 ; then cat test/$*.err; false; fi
+	ocaml test/$*.ml >test/$*.out-oc
+	./converter <test/$*.out >test/$*.out-mc
+	diff test/$*.out-mc test/$*.out-oc
 	rm test/$*.err
 test/%.x: test/%.s $(ASM)
 	$(ASM) test/$*.s >/dev/null

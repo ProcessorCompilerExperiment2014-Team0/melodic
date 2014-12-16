@@ -5,3 +5,7 @@
 *.x
 Test
 build/
+converter
+test/*.err
+test/*.out*
+*.log
