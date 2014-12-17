@@ -61,3 +61,7 @@ flfuntest: ppmtest.ml $(CMP) $(ASM) $(EXEC) $(LIB)
 	$(ASM) ppmtest.s
 	$(EXEC) ppmtest >ppm.ppm
 
+converter: converter.c
+	gcc $< -o $@
+
+
