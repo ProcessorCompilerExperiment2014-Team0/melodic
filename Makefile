@@ -4,7 +4,7 @@ ASM   = $(BUILD)assembler
 EXEC  = $(BUILD)executer
 MCCFLAGS = -i -inline 5
 LIB = min-caml/zekamashi/libmincaml.txt min-caml/lib/fl.ml
-STDLIB = -lib min-caml/zekamashi/libmincaml.txt -glib min-caml/lib/fl 
+STDLIB = -lib min-caml/zekamashi/libmincaml.txt # -glib min-caml/lib/fl # currently, min-caml for zekamashi cannot compile library 
 
 TESTS = test/ack.test test/fib.test test/gcd.test test/inprod.test \
   test/gcd.testlib test/extvar.testlib \
