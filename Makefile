@@ -4,19 +4,19 @@ ASM   = $(BUILD)assembler
 EXEC  = $(BUILD)executer
 MCCFLAGS = -i -inline 5
 LIB = min-caml/zekamashi/libmincaml.txt min-caml/lib/fl.ml
-STDLIB = -lib min-caml/zekamashi/libmincaml.txt # -glib min-caml/lib/fl # currently, min-caml for zekamashi cannot compile library 
+STDLIB = -lib min-caml/zekamashi/libmincaml.txt -glib min-caml/lib/fl # currently, min-caml for zekamashi cannot compile library 
 
 TESTS = test/ack.test test/fib.test test/gcd.test test/inprod.test \
   test/join-reg.test test/join-reg2.test \
   test/join-stack.test test/join-stack2.test test/join-stack3.test \
   test/sum.test test/sum-tail.test \
   test/spill.test test/spill2.test test/spill3.test \
-  test/matmul.test test/matmul-flat.test \
-  test/ary-test.test \
   test/float-easy.test test/float-sqrt.test \
-  test/float-atan.test test/float-sin.test test/float-cos.test test/float.test \
-  test/cls-bug.test test/cls-bug2.test \
-  test/gcd.testlib test/extvar.testlib
+#  test/gcd.testlib test/extvar.testlib
+#  test/matmul.test test/matmul-flat.test \
+#  test/ary-test.test \
+#  test/float-atan.test test/float-sin.test test/float-cos.test test/float.test \
+#  test/cls-bug.test test/cls-bug2.test \
 
 .PHONY: all clean
 all: $(TESTS)
