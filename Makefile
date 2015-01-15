@@ -12,11 +12,11 @@ TESTS = test/ack.test test/fib.test test/gcd.test test/inprod.test \
   test/sum.test test/sum-tail.test \
   test/spill.test test/spill2.test test/spill3.test \
   test/float-easy.test test/float-sqrt.test \
+  test/cls-bug.test test/cls-bug2.test \
+  test/ary-test.test \
+  test/matmul.test test/matmul-flat.test \
 #  test/gcd.testlib test/extvar.testlib
-#  test/matmul.test test/matmul-flat.test \
-#  test/ary-test.test \
 #  test/float-atan.test test/float-sin.test test/float-cos.test test/float.test \
-#  test/cls-bug.test test/cls-bug2.test \
 
 .PHONY: all clean
 all: $(TESTS)
@@ -27,9 +27,9 @@ clean:
 	-make -C Zekamashi/sim clean
 test/%.test: test/%.x test/%.ml $(EXEC) converter
 	$(EXEC) test/$*.x >test/$*.out 2>test/$*.err; if test $$? -ne 0 ; then cat test/$*.err; false; fi
-	ocaml test/$*.ml >test/$*.out-oc
+	ocaml test/$*.ml | tr -d '\n' >test/$*.out-oc
 	./converter <test/$*.out >test/$*.out-mc
-	diff test/$*.out-mc test/$*.out-oc
+	diff --ignore-blank-lines --ignore-all-space test/$*.out-mc test/$*.out-oc
 	rm test/$*.err
 test/%.x: test/%.s $(ASM)
 	$(ASM) test/$*.s >/dev/null

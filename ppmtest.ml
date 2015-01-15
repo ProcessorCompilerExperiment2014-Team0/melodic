@@ -22,7 +22,7 @@ let rec emit r g b = print_char r; print_char g; print_char b in
 let rec write_content _ =
   let rec wc_sub x y = if x >= 256 then () else
     if y >= 256 then wc_sub (x + 1) 0
-    else (if int_of_float (sin (float_of_int (y - 128) *. 0.7) *. 9.) <>  - x + 128 then emit 255 255 255 else emit 0 0 0; wc_sub x (y+1))
+    else (if int_of_float (atan (float_of_int (y - 128) *. 0.7) *. 9.) <>  - x + 128 then emit 255 255 255 else emit 0 0 0; wc_sub x (y+1))
   in wc_sub 0 0
 in
 write_ppm_header ();
