@@ -14,7 +14,7 @@ TESTS = test/ack.test test/fib.test test/gcd.test test/inprod.test \
   test/cls-bug.test test/cls-bug2.test \
   test/ary-test.test \
   test/matmul.test test/matmul-flat.test \
-  test/float-atan.test test/float-sin.test test/float-cos.test test/float.test \
+  test/float-atan.test test/float-sin.test test/float-cos.test test/float.test test/float-array.test \
 #  test/gcd.testlib test/extvar.testlib
 
 .PHONY: all clean
@@ -44,8 +44,9 @@ $(CMP): min-caml/min-caml
 $(ASM): Zekamashi
 	cd Zekamashi/asm; omake
 	cp Zekamashi/asm/asagumo $(ASM)
-$(EXEC): Zekamashi
+Zekamashi/sim/amatsukaze:
 	$(MAKE) -C Zekamashi/sim
+$(EXEC): Zekamashi/sim/amatsukaze
 	cp Zekamashi/sim/amatsukaze $(EXEC)
 
 
