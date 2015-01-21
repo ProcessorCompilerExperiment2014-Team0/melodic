@@ -15,7 +15,8 @@ TESTS = test/ack.test test/fib.test test/gcd.test test/inprod.test \
   test/ary-test.test \
   test/matmul.test test/matmul-flat.test \
   test/float-atan.test test/float-sin.test test/float-cos.test test/float.test test/float-array.test \
-#  test/gcd.testlib test/extvar.testlib
+  test/pair.test test/tuple-float.test \
+  test/gcd.testlib test/extvar.testlib
 
 .PHONY: all clean
 all: $(TESTS)
@@ -30,6 +31,9 @@ test/%.test: test/%.x test/%.ml $(EXEC) converter
 	./converter <test/$*.out >test/$*.out-mc
 	diff --ignore-blank-lines --ignore-all-space test/$*.out-mc test/$*.out-oc
 	rm test/$*.err
+test/%.testlib: test/%-main.x test/%-main.ml test/%-lib.ml $(EXEC) converter
+	$(EXEC) test/$*-main.x >test/$*-main.out 2>test/$*-main.err; if test $$? -ne 0 ; then cat test/$*-main.err; false; fi
+	rm test/$*-main.err
 test/%.x: test/%.s $(ASM)
 	$(ASM) test/$*.s >/dev/null
 	mv test/$* test/$*.x
