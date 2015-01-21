@@ -3,15 +3,9 @@ env:
   - MCCFLAGS="-inline 0"
   - MCCFLAGS="-inline 5"
   - MCCFLAGS="-inline 10"
-  - MCCFLAGS="-inline 0 -finv"
-  - MCCFLAGS="-inline 5 -finv"
-  - MCCFLAGS="-inline 10 -finv"
-  - MCCFLAGS="-inline 0 -fsqrt"
-  - MCCFLAGS="-inline 5 -fsqrt"
-  - MCCFLAGS="-inline 10 -fsqrt"
-  - MCCFLAGS="-inline 0 -finv -fsqrt"
-  - MCCFLAGS="-inline 5 -finv -fsqrt"
-  - MCCFLAGS="-inline 10 -finv -fsqrt"
+  - MCCFLAGS="-inline 15"
+  - MCCFLAGS="-inline 20"
+  - MCCFLAGS="-inline 25"
 before_install:
   - git submodule update --init --recursive
 script:
