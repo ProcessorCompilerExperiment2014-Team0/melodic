@@ -25,7 +25,7 @@
  ***********************************************************************
  *)
 
-let rec print_byte x = print_char (char_of_int x) in
+let rec print_byte x = print_char x in
 
 (* Imprecise log function. used in interpolation. *)
 let rec imprecise_log f =

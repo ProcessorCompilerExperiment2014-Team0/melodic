@@ -6,6 +6,6 @@
 Test
 build/
 converter
-test/*.err
-test/*.out*
+*.err
+*.out*
 *.log

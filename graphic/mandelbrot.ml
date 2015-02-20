@@ -9,7 +9,7 @@ let rec mandelbrot_at a b =
   in
   loop 200 0.0 0.0
 in
-let rec print_byte x = print_char (char_of_int x) in
+let rec print_byte x = print_char x in
 let rec mandelbrot _ =
   print_byte 80; (* 'P' *)
   print_byte (48 + 6); (* '6' *)

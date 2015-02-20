@@ -25,22 +25,21 @@ clean:
 	-make -C min-caml clean
 	-cd Zekamashi/asm; omake clean
 	-make -C Zekamashi/sim clean
-test/%.test: test/%.x test/%.ml $(EXEC) converter
-	$(EXEC) test/$*.x >test/$*.out 2>test/$*.err; if test $$? -ne 0 ; then cat test/$*.err; false; fi
-	ocaml test/$*.ml | tr -d '\n' >test/$*.out-oc
-	./converter <test/$*.out >test/$*.out-mc
-	diff --ignore-blank-lines --ignore-all-space test/$*.out-mc test/$*.out-oc
-	rm test/$*.err
-test/%.testlib: test/%-main.x test/%-main.ml test/%-lib.ml $(EXEC) converter
-	$(EXEC) test/$*-main.x >test/$*-main.out 2>test/$*-main.err; if test $$? -ne 0 ; then cat test/$*-main.err; false; fi
-	rm test/$*-main.err
-test/%.x: test/%.s $(ASM)
-	$(ASM) test/$*.s >/dev/null
-	mv test/$* test/$*.x
-test/%-main.s: test/%-lib.ml test/%-main.ml $(CMP) $(LIB)
-	$(CMP) $(MCCFLAGS) $(STDLIB) -glib test/$*-lib test/$*-main
-test/%.s: test/%.ml $(CMP) $(LIB)
-	$(CMP) $(MCCFLAGS) $(STDLIB) test/$*
+%.test: %.x %.ml $(EXEC) converter
+	$(EXEC) $*.x >$*.out 2>$*.err; if test $$? -ne 0 ; then cat $*.err; false; fi
+	ocaml $*.ml | tr -d '\n' >$*.out-oc
+	./converter <$*.out >$*.out-mc
+	diff --ignore-blank-lines --ignore-all-space $*.out-mc $*.out-oc
+	rm $*.err
+%.testlib: %-main.x %-main.ml %-lib.ml $(EXEC) converter
+	$(EXEC) $*-main.x >$*-main.out 2>$*-main.err; if test $$? -ne 0 ; then cat $*-main.err; false; fi
+	rm $*-main.err
+%.x: %.s $(ASM)
+	$(ASM) $*.s -o $*.x >/dev/null
+%-main.s: %-lib.ml %-main.ml $(CMP) $(LIB)
+	$(CMP) $(MCCFLAGS) $(STDLIB) -glib $*-lib $*-main
+%.s: %.ml $(CMP) $(LIB)
+	$(CMP) $(MCCFLAGS) $(STDLIB) $*
 min-caml/min-caml:
 	$(MAKE) -C min-caml -f Makefile.zek min-caml
 $(CMP): min-caml/min-caml
