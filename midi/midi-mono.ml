@@ -23,9 +23,12 @@ in
 
 let rec note_on c nn vel =
   let tp = get_tp nn 0 in
-  write_chip (c*2) tp;               (* LSB *)
-  write_chip (c*2+1) (lsr tp 8);     (* MSB *)
-  write_chip (c+8) ((lsr vel 4) + 8) (* set volume *)
+  if tp > 4096
+  then ()
+  else (
+    write_chip (c*2) tp;               (* LSB *)
+    write_chip (c*2+1) (lsr tp 8);     (* MSB *)
+    write_chip (c+8) ((lsr vel 4) + 8)) (* set volume *)
 in
 
 let rec note_off c =
