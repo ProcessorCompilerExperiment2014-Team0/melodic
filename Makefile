@@ -18,7 +18,7 @@ TESTS = test/ack.test test/fib.test test/gcd.test test/inprod.test \
   test/pair.test test/tuple-float.test \
   test/gcd.testlib test/extvar.testlib
 
-.PHONY: all clean
+.PHONY: all clean midi-mono
 all: $(TESTS)
 clean:
 	rm -f $(CMP) $(ASM) $(EXEC)
@@ -57,6 +57,12 @@ raytrace: raytracer/min-rt.ml raytracer/globals.ml $(CMP) $(ASM) $(LIB)
 	$(CMP) $(MCCFLAGS) $(STDLIB) -glib raytracer/globals raytracer/min-rt
 	$(ASM) raytracer/min-rt.s
 	mv raytracer/min-rt raytracer/min-rt.x
+
+midi/midi-mono.x: midi/midi-mono.ml $(CMP) $(ASM) midi/libmincaml.txt
+	$(CMP) $(MCCFLAGS) -lib midi/libmincaml.txt midi/midi-mono
+	$(ASM) midi/midi-mono.s -o midi/midi-mono.x
+
+midi-mono: midi/midi-mono.x
 
 flfuntest: ppmtest.ml $(CMP) $(ASM) $(EXEC) $(LIB)
 	$(CMP) $(MCCFLAGS) $(STDLIB) ppmtest
