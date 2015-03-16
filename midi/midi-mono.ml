@@ -66,6 +66,8 @@ let rec main state =
   in main next_state
 in
 
-let _ = main (-1)
+let _ =
+  let _ = write_chip 7 56 in
+  main (-1)
 
 in 0
