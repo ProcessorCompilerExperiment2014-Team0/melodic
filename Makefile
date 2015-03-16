@@ -34,6 +34,11 @@ clean:
 %.testlib: %-main.x %-main.ml %-lib.ml $(EXEC) converter
 	$(EXEC) $*-main.x >$*-main.out 2>$*-main.err; if test $$? -ne 0 ; then cat $*-main.err; false; fi
 	rm $*-main.err
+
+midi/%.x: midi/%.ml $(CMP) $(ASM) midi/libmincaml.txt
+	$(CMP) $(MCCFLAGS) -lib midi/libmincaml.txt $(basename $@)
+	$(ASM) $(basename $@).s -o $@
+
 %.x: %.s $(ASM)
 	$(ASM) $*.s -o $*.x >/dev/null
 %-main.s: %-lib.ml %-main.ml $(CMP) $(LIB)
@@ -57,10 +62,6 @@ raytrace: raytracer/min-rt.ml raytracer/globals.ml $(CMP) $(ASM) $(LIB)
 	$(CMP) $(MCCFLAGS) $(STDLIB) -glib raytracer/globals raytracer/min-rt
 	$(ASM) raytracer/min-rt.s
 	mv raytracer/min-rt raytracer/min-rt.x
-
-midi/%.x: midi/%.ml $(CMP) $(ASM) midi/libmincaml.txt
-	$(CMP) $(MCCFLAGS) -lib midi/libmincaml.txt $(basename $@)
-	$(ASM) $(basename $@).s -o $@
 
 midi-mono: midi/midi-mono.x
 
