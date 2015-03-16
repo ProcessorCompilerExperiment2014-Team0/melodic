@@ -27,7 +27,7 @@ in
 
 let rec note_on c nn vel =
   let tp = get_tp nn 0 in
-  if tp > 4096
+  if tp >= 4096
   then ()
   else (
     write_chip (c*2) tp;               (* LSB *)

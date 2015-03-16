@@ -167,8 +167,8 @@ mcwc:
 	LDL $3, 4($5)
 	AND $3, 1, $4
 	BEQ $4, mcwc
-    # AND $0, 0xF, $0
-	# AND $1, 0xFF, $1
+	AND $0, 0xF, $0
+	AND $1, 0xFF, $1
     SLL $0, 8, $4
     BIS $4, $1, $4
 	STL $4, 5($5)
@@ -176,13 +176,13 @@ mcwc:
 
 min_caml_lsr:
 	SRL $0, $1, $0
-    RET $28, ($29)
+	RET $28, ($29)
 
 min_caml_read_midi:
 	LDAH $1, 16($31)
 mcrm:
 	LDL $3, 6($1)
-    AND $3, 1, $4
-    BEQ $4, mcrm
-    LDL $0, 7($1)
-    RET $28, ($29)
+	AND $3, 1, $4
+	BEQ $4, mcrm
+	LDL $0, 7($1)
+	RET $28, ($29)
