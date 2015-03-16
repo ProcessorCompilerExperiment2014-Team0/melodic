@@ -58,9 +58,9 @@ raytrace: raytracer/min-rt.ml raytracer/globals.ml $(CMP) $(ASM) $(LIB)
 	$(ASM) raytracer/min-rt.s
 	mv raytracer/min-rt raytracer/min-rt.x
 
-midi/midi-mono.x: midi/midi-mono.ml $(CMP) $(ASM) midi/libmincaml.txt
-	$(CMP) $(MCCFLAGS) -lib midi/libmincaml.txt midi/midi-mono
-	$(ASM) midi/midi-mono.s -o midi/midi-mono.x
+midi/%.x: midi/%.ml $(CMP) $(ASM) midi/libmincaml.txt
+	$(CMP) $(MCCFLAGS) -lib midi/libmincaml.txt $(basename $@)
+	$(ASM) $(basename $@).s -o $@
 
 midi-mono: midi/midi-mono.x
 
