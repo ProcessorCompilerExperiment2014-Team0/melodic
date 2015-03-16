@@ -35,27 +35,35 @@ let rec note_off c =
   write_chip (c+8) 0            (* set volume 0 *)
 in
 
-let rec main c0 =
+let rec try_note_off state c nn =
+  if nn = state
+  then
+    let _ = note_off 0 in
+    -1
+  else state
+in
+
+let rec main state =
   let msg = read_midi () in
-  let state =
+  let next_state =
     if msg = 144
     then                        (* 144 = 0x90 : ch0 note on *)
       let nn = read_midi () in  (* note number *)
       let vel = read_midi () in (* velocity *)
-      let _ = note_off 0 in
-      let _ = note_on 0 nn vel in
-      nn
+      if vel = 0
+      then
+        try_note_off state 0 nn
+      else
+        let _ = note_off 0 in
+        let _ = note_on 0 nn vel in
+        nn
     else if msg = 128
     then                        (* 128 = 0x80 : ch0 note off *)
       let nn = read_midi () in  (* note number *)
       let _ = read_midi () in   (* velocity *)
-      if nn = c0
-      then
-        let _ = note_off 0 in
-        -1
-      else c0
-    else c0
-  in main state
+      try_note_off state 0 nn
+    else state
+  in main next_state
 in
 
 let _ = main (-1)
