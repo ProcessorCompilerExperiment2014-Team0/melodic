@@ -13,6 +13,23 @@
 (*NOMINCAML open Globals;;*)
 (*MINCAML*) let rec xor x y = if x then not y else y in
 
+(* audio *)
+let rec init_audio _ =
+  write_chip 7 56;
+  write_chip 8 15;
+  write_chip 9 15;
+  write_chip 10 15
+in
+
+let rec get_tp v =
+  638 - v*2
+in
+
+let rec put_note c v =
+  let tp = get_tp v in
+  write_chip (c*2) tp;
+  write_chip (c*2+1) (lsr tp 8)
+in
 
 (******************************************************************************
    ユーティリティー
@@ -1948,18 +1965,19 @@ let rec write_ppm_header _ =
   )
 in
 
-let rec write_rgb_element x =
+let rec write_rgb_element c x =
   let ix = int_of_float x in
   let elem = if ix > 255 then 255 else if ix < 0 then 0 else ix in
-  print_char elem
+  print_char elem;
+  put_note c elem
 in
 
 let rec write_rgb _ =
-   write_rgb_element rgb.(0); (* Red   *)
+   write_rgb_element 0 rgb.(0); (* Red   *)
    (* print_char 32; *)
-   write_rgb_element rgb.(1); (* Green *)
+   write_rgb_element 1 rgb.(1); (* Green *)
    (* print_char 32; *)
-   write_rgb_element rgb.(2) (* Blue  *)
+   write_rgb_element 2 rgb.(2) (* Blue  *)
    (* print_char 10 *)
 in
 
@@ -2317,6 +2335,7 @@ let rec rt size_x size_y =
  setup_dirvec_constants light_dirvec;
  setup_reflections (n_objects.(0) - 1);
  pretrace_line cur 0 0;
+ init_audio ();
  scan_line 0 prev cur next 2 
 )
 in

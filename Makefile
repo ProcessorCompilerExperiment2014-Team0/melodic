@@ -59,7 +59,7 @@ $(EXEC): Zekamashi/sim/amatsukaze
 
 
 raytrace: raytracer/min-rt.ml raytracer/globals.ml $(CMP) $(ASM) $(LIB)
-	$(CMP) $(MCCFLAGS) $(STDLIB) -glib raytracer/globals raytracer/min-rt
+	$(CMP) $(MCCFLAGS) -lib midi/libmincaml.txt -glib min-caml/lib/fl -glib raytracer/globals raytracer/min-rt
 	$(ASM) raytracer/min-rt.s
 	mv raytracer/min-rt raytracer/min-rt.x
 
